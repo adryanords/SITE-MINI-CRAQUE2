@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Craque da Doação</title>
+
+  <style>
+    :root {
+      --lime: #c6ff3f;
+      --lime-soft: #dcff74;
+      --green: #184f3d;
+      --green-mid: #53c851;
+      --purple: #7242d8;
+      --ink: #123529;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at 77% 26%, rgba(114, 66, 216, 0.2) 0 9%, transparent 10%),
+        linear-gradient(135deg, var(--lime) 0%, var(--lime-soft) 48%, #b8fb36 100%);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      overflow-x: hidden;
+    }
+
+    .page {
+      position: relative;
+      width: min(1120px, 100%);
+      min-height: min(720px, calc(100vh - 56px));
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.8fr);
+      align-items: stretch;
+      background: rgba(198, 255, 63, 0.72);
+      border: 2px solid rgba(24, 79, 61, 0.18);
+      border-radius: 8px;
+      box-shadow: 0 24px 70px rgba(18, 53, 41, 0.22);
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 26%;
+      background: linear-gradient(180deg, rgba(198, 255, 63, 0.95), rgba(198, 255, 63, 0.6));
+      pointer-events: none;
+    }
+
+    .page::after {
+      content: "";
+      position: absolute;
+      right: -8%;
+      bottom: -12%;
+      width: 56%;
+      height: 62%;
+      background: var(--green-mid);
+      border-radius: 70% 0 0 0;
+      clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%, 0 22%);
+      opacity: 0.92;
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(28px, 5vw, 64px);
+      background:
+        linear-gradient(100deg, var(--green) 0 58%, transparent 58.4%),
+        linear-gradient(0deg, rgba(24, 79, 61, 0.95), rgba(24, 79, 61, 0.95));
+      color: var(--white);
+      min-height: 620px;
+    }
+
+    .badge {
+      width: fit-content;
+      margin-bottom: 28px;
+      padding: 8px 12px;
+      border: 2px solid rgba(198, 255, 63, 0.55);
+      color: var(--lime);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 560px;
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: 0.92;
+      color: var(--lime);
+      text-transform: uppercase;
+    }
+
+    p {
+      max-width: 520px;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-size: 18px;
+      margin: 22px 0 0;
+    }
+
+    .prompt-preview {
+      width: min(520px, 100%);
+      margin: 30px 0 22px;
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(198, 255, 63, 0.48);
+      border-left: 8px solid var(--purple);
+      border-radius: 8px;
+      text-align: left;
+      color: rgba(255, 255, 255, 0.9);
+      max-height: 118px;
+      overflow: hidden;
+      position: relative;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .prompt-preview::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 46px;
+      background: linear-gradient(transparent, #184f3d);
+    }
+
+    button {
+      width: min(520px, 100%);
+      padding: 17px 20px;
+      border: none;
+      border-radius: 8px;
+      background: var(--lime);
+      color: var(--green);
+      font-size: 17px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 8px 8px 0 var(--purple);
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    button:hover {
+      background: #d9ff67;
+      box-shadow: 5px 5px 0 var(--purple);
+      transform: translate(3px, 3px);
+    }
+
+    .note {
+      width: min(520px, 100%);
+      margin-top: 18px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 13px;
+    }
+
+    .showcase {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(24px, 4vw, 52px);
+      min-height: 620px;
+    }
+
+    .showcase::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 44%;
+      background: var(--lime);
+      z-index: -1;
+    }
+
+    .showcase::after {
+      content: "";
+      position: absolute;
+      top: 24%;
+      right: 0;
+      width: 86%;
+      height: 24%;
+      background: var(--green);
+      border-bottom-left-radius: 130px;
+      z-index: -1;
+    }
+
+    .image-panel {
+      position: relative;
+      width: min(390px, 100%);
+      padding: 12px;
+      background:
+        repeating-linear-gradient(135deg, var(--purple) 0 8px, transparent 8px 16px),
+        var(--lime);
+      border-radius: 8px;
+      box-shadow: 0 24px 45px rgba(18, 53, 41, 0.3);
+    }
+
+    .image-frame {
+      position: relative;
+      background: #f9f9f9;
+      border: 10px solid var(--green);
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 0.64;
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center top;
+      display: block;
+    }
+
+    .label {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: -18px;
+      padding: 11px 14px;
+      background: var(--purple);
+      color: var(--white);
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      box-shadow: 0 12px 24px rgba(18, 53, 41, 0.2);
+    }
+
+    @media (max-width: 860px) {
+      body {
+        padding: 16px;
+        align-items: flex-start;
+      }
+
+      .page {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .content,
+      .showcase {
+        min-height: auto;
+      }
+
+      .content {
+        background: var(--green);
+        padding-bottom: 38px;
+      }
+
+      .showcase {
+        padding-top: 38px;
+        padding-bottom: 62px;
+      }
+
+      h1 {
+        font-size: clamp(36px, 12vw, 58px);
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <section class="content">
+      <div class="badge">HEMOMAR · Mini Craque</div>
+
+      <h1>Faça seu Mini Craque</h1>
+
+      <p>
+        Copie o prompt pronto, abra o Gemini, envie uma foto da pessoa e gere seu mini craque personalizado.
+      </p>
+
+      <div class="prompt-preview">
+        Create a high quality premium 3D collectible toy figure inspired by classic Brazilian “mini craque” soccer figurines, using the uploaded person photo only as identity reference...
+      </div>
+
+      <button onclick="copiarEAbrirGemini()">
+        Copiar e fazer meu mini craque agora
+      </button>
+
+      <div class="note">
+        Depois que o Gemini abrir, cole o prompt e envie a foto da pessoa.
+      </div>
+    </section>
+
+    <aside class="showcase" aria-label="Exemplo de mini craque">
+      <div class="image-panel">
+        <div class="image-frame">
+          <img src="mini-craque-exemplo.jpeg" alt="Exemplo de mini craque personalizado" />
+        </div>
+        <div class="label">Exemplo pronto</div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const promptMiniCraque = `Create a high quality premium 3D collectible toy figure inspired by classic Brazilian “mini craque” soccer figurines, using the uploaded person photo only as identity reference.
+
+Transform the person into a cute stylized 3D soccer toy, not a realistic human portrait. Preserve the person's recognizable facial identity in toy form, including apparent age group, gender presentation, skin tone, face shape, hairstyle, hair color, eyebrows, eyes, nose, mouth, smile, facial hair if present, jawline, cheeks, and overall expression. Reinterpret these traits as a friendly, charming, simplified caricature with a soft sculpted toy face. Avoid photorealism, realistic pores, wrinkles, or human skin detail.
+
+Use classic mini collectible proportions: oversized expressive head, small compact body, rounded arms and legs, simplified anatomy, soft cheeks, balanced stance, and a cute bobblehead feel. Keep the figure appealing, not distorted, scary, ugly, or exaggerated.
+
+Visual style: smooth matte to satin vinyl or plastic texture, premium manufactured toy finish, soft molded surfaces, gently sculpted facial details, softly modeled hair, simplified beard or mustache if present, clean 3D product render look, soft diffuse studio lighting, subtle shadows, and a seamless white or very light gray background.
+
+Composition: full body visible from head to feet, front facing, perfectly centered, standing on a simple white circular pedestal base. Do not crop the head, feet, soccer ball, or base. Pose: one arm bent holding a classic black and white soccer ball near the hip, the other arm relaxed downward.
+
+Outfit: bright yellow soccer jersey with green V neck collar and green sleeve cuffs. On the right chest, add the word “HEMOMAR” in small black uppercase sans serif letters. On the left chest, add only a plain green shield shaped crest with no logo, letters, icons, symbols, stars, drawings, emblems, or internal details. Add blue soccer shorts, white knee high socks with green and yellow stripes at the top, and black soccer cleats with subtle white details. Clothing must look smooth, clean, plastic, and toy like.
+
+Pedestal: on the front face of the white circular base, print the exact phrase “#CRAQUEDADOAÇÃO” clearly, centered, large, legible, in bold black uppercase sans serif lettering, following the natural front curve of the pedestal. Do not misspell it, remove accents, or add any other text.
+
+Negative prompt: photorealistic human portrait, realistic pores, wrinkles, ugly caricature, distorted face, scary face, exaggerated expression, cropped body, cropped head, cropped feet, cropped pedestal, extra text, misspelled text, wrong hashtag, missing accents, sponsor logos, logo inside crest, detailed crest, symbols inside shield, extra accessories, props, scenery, complex background, dynamic action pose, wrong clothing, wrong colors, realistic fabric, hyperreal skin, messy composition, off center figure.`;
+
+    async function copiarEAbrirGemini() {
+      try {
+        await navigator.clipboard.writeText(promptMiniCraque);
+
+        alert("Prompt copiado! Agora cole no Gemini e envie a foto da pessoa.");
+
+        window.open("https://gemini.google.com/", "_blank");
+      } catch (error) {
+        alert("Não foi possível copiar automaticamente. Selecione e copie o prompt manualmente.");
+      }
+    }
+  </script>
+</body>
+</html>
